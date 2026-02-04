@@ -34,17 +34,24 @@ const MessageBubble = ({ message, isOwn }) => {
 
                     {message.file && (
                         <div className="file-attachment">
-                            {message.file.type && message.file.type.startsWith('image/') ? (
-                                <div className="image-preview">
-                                    <img src={`http://localhost:3001${message.file.url}`} alt="attachment" />
-                                </div>
-                            ) : (
-                                <div className="file-info">
-                                    <FaFile className="file-icon" />
-                                    <span className="file-name">{message.file.name}</span>
-                                </div>
-                            )}
-                            <a href={`http://localhost:3001${message.file.url}`} target="_blank" rel="noopener noreferrer" className="download-link">
+                            {(() => {
+                                const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001';
+                                if (message.file.type && message.file.type.startsWith('image/')) {
+                                    return (
+                                        <div className="image-preview">
+                                            <img src={`${API_URL}${message.file.url}`} alt="attachment" />
+                                        </div>
+                                    );
+                                } else {
+                                    return (
+                                        <div className="file-info">
+                                            <FaFile className="file-icon" />
+                                            <span className="file-name">{message.file.name}</span>
+                                        </div>
+                                    );
+                                }
+                            })()}
+                            <a href={`${import.meta.env.VITE_API_URL || 'http://localhost:3001'}${message.file.url}`} target="_blank" rel="noopener noreferrer" className="download-link">
                                 <span className="download-text">OPEN</span> <FaDownload />
                             </a>
                         </div>

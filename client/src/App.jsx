@@ -9,7 +9,8 @@ import JoinScreen from './components/JoinScreen'; // Legacy, remove or keep? Rem
 import Login from './components/Login';
 import Register from './components/Register';
 
-const socket = io('http://localhost:3001', {
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001';
+const socket = io(API_URL, {
   autoConnect: false
 });
 
@@ -77,7 +78,8 @@ function App() {
   // Load messages when room changes
   useEffect(() => {
     if (currentRoom) {
-      fetch(`http://localhost:3001/api/users/messages/${currentRoom}`)
+      const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001';
+      fetch(`${API_URL}/api/users/messages/${currentRoom}`)
         .then(res => res.json())
         .then(data => setMessages(data))
         .catch(err => console.error(err));

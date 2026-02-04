@@ -13,7 +13,8 @@ const Sidebar = ({ currentUser, isConnected, onStartChat, onLogout, activeChatUs
     if (query.trim().length > 0) {
       setIsSearching(true);
       try {
-        const res = await fetch(`http://localhost:3001/api/users/search?q=${query}`);
+        const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001';
+        const res = await fetch(`${API_URL}/api/users/search?q=${query}`);
         const data = await res.json();
         // Filter out self
         setSearchResults(data.filter(u => u.username !== currentUser.username));
